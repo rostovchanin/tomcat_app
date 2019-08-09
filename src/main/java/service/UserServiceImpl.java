@@ -1,7 +1,8 @@
 package service;
 
 import dao.UserDao;
-import dao.UserDaoImpl;
+import dao.UserDaoHibernateImpl;
+import dao.UserDaoJdbcImpl;
 import model.User;
 
 
@@ -12,7 +13,9 @@ public class UserServiceImpl implements UserService{
     private UserDao dao;
 
     private UserServiceImpl(){
-        dao = new UserDaoImpl();
+
+        //dao = new UserDaoJdbcImpl();
+        dao = new UserDaoHibernateImpl();
     }
 
     public static UserService getInstance(){

@@ -2,7 +2,8 @@ package dao;
 
 import exception.LogicException;
 import model.User;
-import util.DBHelper;
+import util.DbJdbcHelper;
+import util.DbUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,18 +12,19 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDaoImpl implements UserDao{
+public class UserDaoJdbcImpl implements UserDao{
+    private final String DB_TABLE = "users_task1";
     private Connection connection;
     
-    public UserDaoImpl(){
-        connection = DBHelper.getConnection();
+    public UserDaoJdbcImpl(){
+        connection = DbJdbcHelper.getJdbcConnection();
     }
 
     @Override
     public List<User> getAllUsers()  {
         List<User> list = new ArrayList<>();
 
-        final String sql = "SELECT id, name, password, login FROM users_task1";
+        final String sql = "SELECT id, name, password, login FROM "+ DB_TABLE;
 
         try(PreparedStatement statement = connection.prepareStatement(sql)) {
 
@@ -43,7 +45,7 @@ public class UserDaoImpl implements UserDao{
     @Override
     public User getUserById(Integer id) {
         User user = null;
-        final String sql = "SELECT id, name, password, login FROM users_task1 WHERE id=?";
+        final String sql = "SELECT id, name, password, login FROM "+ DB_TABLE +" WHERE id=?";
         try(PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setInt(1, id);
@@ -60,7 +62,7 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public void createUser(User user) {
-        String sql = "INSERT INTO users_task1 (name, password, login) VALUES (?,?,?)";
+        String sql = "INSERT INTO "+ DB_TABLE +" (name, password, login) VALUES (?,?,?)";
 
         try(PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, user.getName());
@@ -74,7 +76,7 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public void updateUser(User user){
-        final String sql = "UPDATE users_task1 SET name=?, password=?, login=? WHERE id=?";
+        final String sql = "UPDATE "+ DB_TABLE +" SET name=?, password=?, login=? WHERE id=?";
         boolean success = false;
         try(PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, user.getName());
@@ -93,7 +95,7 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public void deleteUserById(Integer id) {
-        final String sql = "DELETE FROM users_task1 WHERE id=?";
+        final String sql = "DELETE FROM "+ DB_TABLE +" WHERE id=?";
         boolean success = false;
         try(PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, id);
