@@ -2,6 +2,7 @@ package service;
 
 import dao.UserDao;
 import dao.UserDaoFactory;
+import dao.UserDaoFactoryImpl;
 import model.User;
 
 
@@ -12,7 +13,8 @@ public class UserServiceImpl implements UserService{
     private UserDao dao;
 
     private UserServiceImpl(){
-        dao = UserDaoFactory.getUserDao();
+        UserDaoFactory userDaoFactory = new UserDaoFactoryImpl();
+        dao = userDaoFactory.getUserDao();
     }
 
     public static UserService getInstance(){
