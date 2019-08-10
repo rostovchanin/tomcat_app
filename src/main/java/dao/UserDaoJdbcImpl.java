@@ -2,8 +2,8 @@ package dao;
 
 import exception.LogicException;
 import model.User;
-import util.DbJdbcHelper;
-import util.DbUtil;
+import util.DbHelper;
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,7 +17,7 @@ public class UserDaoJdbcImpl implements UserDao{
     private Connection connection;
     
     public UserDaoJdbcImpl(){
-        connection = DbJdbcHelper.getJdbcConnection();
+        connection = DbHelper.getInstance().getConnection();
     }
 
     @Override

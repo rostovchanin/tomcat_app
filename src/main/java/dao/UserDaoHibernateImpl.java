@@ -5,7 +5,11 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import util.DbHibernateHelper;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
+import util.DbHelper;
+
 
 
 import java.util.ArrayList;
@@ -16,8 +20,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     private SessionFactory sessionFactory;
 
-    public UserDaoHibernateImpl(){
-        this.sessionFactory = DbHibernateHelper.getSessionFactory();
+    public UserDaoHibernateImpl(){ this.sessionFactory = getSessionFactory();
     }
 
     @Override
@@ -110,4 +113,16 @@ public class UserDaoHibernateImpl implements UserDao {
             }
         }
     }
+
+
+
+    public  SessionFactory getSessionFactory() {
+        Configuration configuration = DbHelper.getInstance().getConfiguration();
+        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder();
+        builder.applySettings(configuration.getProperties());
+        ServiceRegistry serviceRegistry = builder.build();
+        return configuration.buildSessionFactory(serviceRegistry);
+    }
+
+
 }
