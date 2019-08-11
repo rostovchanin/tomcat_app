@@ -1,4 +1,7 @@
-package dao;
+package factory;
+
+import dao.UserDao;
+import dao.UserDaoJdbcImpl;
 
 public class JdbcUserDaoFactory implements UserDaoFactory {
     @Override

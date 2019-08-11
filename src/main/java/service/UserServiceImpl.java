@@ -1,7 +1,7 @@
 package service;
 
 import dao.UserDao;
-import dao.UserDaoAbstractFactoryImpl;
+import factory.UserDaoAbstractFactoryImpl;
 import model.User;
 
 

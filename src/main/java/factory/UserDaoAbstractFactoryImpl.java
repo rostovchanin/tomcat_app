@@ -1,4 +1,4 @@
-package dao;
+package factory;
 
 import util.DbHelper;
 
@@ -9,12 +9,8 @@ public class UserDaoAbstractFactoryImpl {
         String daoProperty = DbHelper.getInstance().getProperties().getProperty("dao");
         if(daoProperty.equals("hibernate")){
             this.userDaoFactory = new HibernateUserDaoFactory();
-        }
-        if(daoProperty.equals("jdbc")){
+        }else{
             this.userDaoFactory = new JdbcUserDaoFactory();
-        }
-        if(this.userDaoFactory == null){
-            throw new RuntimeException("Dao property error. Can't create DaoFactory");
         }
     }
     public UserDaoFactory getDaoFactory(){

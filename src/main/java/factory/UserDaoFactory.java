@@ -1,4 +1,6 @@
-package dao;
+package factory;
+
+import dao.UserDao;
 
 public interface UserDaoFactory {
     UserDao getUserDao();
