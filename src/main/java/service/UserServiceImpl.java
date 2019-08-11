@@ -1,8 +1,7 @@
 package service;
 
 import dao.UserDao;
-import dao.UserDaoFactory;
-import dao.UserDaoFactoryImpl;
+import dao.UserDaoAbstractFactoryImpl;
 import model.User;
 
 
@@ -13,8 +12,8 @@ public class UserServiceImpl implements UserService{
     private UserDao dao;
 
     private UserServiceImpl(){
-        UserDaoFactory userDaoFactory = new UserDaoFactoryImpl();
-        dao = userDaoFactory.getUserDao();
+        UserDaoAbstractFactoryImpl factory = new UserDaoAbstractFactoryImpl();
+        dao = factory.getDaoFactory().getUserDao();
     }
 
     public static UserService getInstance(){
