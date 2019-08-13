@@ -15,8 +15,11 @@
 <c:if test="${!empty param.updateOk}"><font color="green">Пользователь сохранен!</font></c:if>
 
 <ol>
-<li><a href="/editUser">Добавить пользователя</a>
-<li><a href="/users">Все пользователи</a>
+<li><a href="/admin/editUser">Добавить пользователя</a></li>
+<li><a href="/admin">Все пользователи</a></li>
+<c:if test="${!empty sessionScope.loggedUser}">
+<li><a href="/user">Раздел для пользователя</a></li>
+<li>${sessionScope.loggedUser.name}.  <a href="/?logout=1"><b>Выйти</b></a></li></c:if>
 </ol>
 <br />
 <c:if test="${!empty users}">
@@ -24,6 +27,7 @@
 <tr align="center">
     <th>ID</th>
     <th>Имя</th>
+    <th>Роль</th>
     <th>Пароль</th>
     <th>Логин</th>
     <th>Изменить</th>
@@ -33,9 +37,10 @@
 <tr align="center">
     <td>${user.id}</td>
     <td>${user.name}</td>
+    <td>${user.role}</td>
     <td>${user.password}</td>
     <td>${user.login}</td>
-    <td><a href="/deleteUser?id=${user.id}" title="Удалить">X</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/editUser?id=${user.id}" title="Редактировать">...</a></td>
+    <td><a href="/admin/deleteUser?id=${user.id}" title="Удалить">X</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/admin/editUser?id=${user.id}" title="Редактировать">...</a></td>
 </tr>
 </c:forEach>
 <c:if test="${!empty users}">

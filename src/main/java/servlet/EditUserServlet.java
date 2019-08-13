@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/editUser")
+@WebServlet("/admin/editUser")
 public class EditUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -42,6 +42,7 @@ public class EditUserServlet extends HttpServlet {
         user.setLogin(req.getParameter("login"));
         user.setName(req.getParameter("name"));
         user.setPassword(req.getParameter("password"));
+        user.setRole(req.getParameter("role"));
 
         try{
             if(req.getParameter("id") != null){
@@ -50,16 +51,17 @@ public class EditUserServlet extends HttpServlet {
             }else{
                 UserServiceImpl.getInstance().createUser(user);
             }
-            resp.sendRedirect("/users?updateOk=1");
+            resp.sendRedirect("/admin?updateOk=1");
         }catch (LogicException e){
-            resp.sendRedirect("/users?updateNotOk=1");
+            resp.sendRedirect("/admin?updateNotOk=1");
         }
     }
 
     private boolean isCorrectPostParameters(HttpServletRequest req){
         if(req.getParameter("name") == null ||
                 req.getParameter("password") == null ||
-                req.getParameter("login") == null){
+                req.getParameter("login") == null ||
+                req.getParameter("role") == null){
 
             return false;
         }

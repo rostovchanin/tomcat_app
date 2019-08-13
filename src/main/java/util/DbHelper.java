@@ -42,7 +42,7 @@ public class DbHelper {
         configuration.setProperty("hibernate.connection.username", properties.getProperty("db_user"));
         configuration.setProperty("hibernate.connection.password", properties.getProperty("db_password"));
         configuration.setProperty("hibernate.show_sql", "true");
-        configuration.setProperty("hibernate.hbm2ddl.auto", "create");
+        configuration.setProperty("hibernate.hbm2ddl.auto", "update");
         return configuration;
     }
 

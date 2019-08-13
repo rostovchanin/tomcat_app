@@ -21,10 +21,30 @@ public class UserDaoJdbcImpl implements UserDao{
     }
 
     @Override
+    public User getUserByLoginAndPassword(String login, String password) {
+        final String sql = "SELECT id, name, password, login, role FROM "+ DB_TABLE +" WHERE login=? AND password=?";
+        User user = null;
+        try(PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, login);
+            statement.setString(2, password);
+            ResultSet res = statement.executeQuery();
+            if(res.next()){
+                user = new User(res.getInt("id"), res.getString("name"),
+                        res.getString("password"), res.getString("login"),
+                        res.getString("role"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+    @Override
     public List<User> getAllUsers()  {
         List<User> list = new ArrayList<>();
 
-        final String sql = "SELECT id, name, password, login FROM "+ DB_TABLE;
+        final String sql = "SELECT id, name, password, login, role FROM "+ DB_TABLE;
 
         try(PreparedStatement statement = connection.prepareStatement(sql)) {
 
@@ -32,7 +52,8 @@ public class UserDaoJdbcImpl implements UserDao{
 
             while(res.next()){
                 list.add(new User(res.getInt("id"), res.getString("name"),
-                res.getString("password"), res.getString("login")));
+                res.getString("password"), res.getString("login"),
+                        res.getString("role")));
             }
 
         } catch (SQLException e) {
@@ -45,14 +66,15 @@ public class UserDaoJdbcImpl implements UserDao{
     @Override
     public User getUserById(Integer id) {
         User user = null;
-        final String sql = "SELECT id, name, password, login FROM "+ DB_TABLE +" WHERE id=?";
+        final String sql = "SELECT id, name, password, login, role FROM "+ DB_TABLE +" WHERE id=?";
         try(PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setInt(1, id);
             ResultSet res = statement.executeQuery();
             if(res.next()){
                 user = new User(res.getInt("id"), res.getString("name"),
-                        res.getString("password"), res.getString("login"));
+                        res.getString("password"), res.getString("login"),
+                        res.getString("role"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -62,12 +84,13 @@ public class UserDaoJdbcImpl implements UserDao{
 
     @Override
     public void createUser(User user) {
-        String sql = "INSERT INTO "+ DB_TABLE +" (name, password, login) VALUES (?,?,?)";
+        String sql = "INSERT INTO "+ DB_TABLE +" (name, password, login, role) VALUES (?,?,?,?)";
 
         try(PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, user.getName());
             statement.setString(2, user.getPassword());
             statement.setString(3, user.getLogin());
+            statement.setString(4, user.getRole());
             statement.executeUpdate();
         }catch (SQLException e) {
             e.printStackTrace();
@@ -76,13 +99,14 @@ public class UserDaoJdbcImpl implements UserDao{
 
     @Override
     public void updateUser(User user){
-        final String sql = "UPDATE "+ DB_TABLE +" SET name=?, password=?, login=? WHERE id=?";
+        final String sql = "UPDATE "+ DB_TABLE +" SET name=?, password=?, login=?, role=? WHERE id=?";
         boolean success = false;
         try(PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, user.getName());
             statement.setString(2, user.getPassword());
             statement.setString(3, user.getLogin());
-            statement.setInt(4, user.getId());
+            statement.setString(4, user.getRole());
+            statement.setInt(5, user.getId());
             int affected = statement.executeUpdate();
             success = affected == 1;
         } catch (SQLException e) {

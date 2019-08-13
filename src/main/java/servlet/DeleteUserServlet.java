@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/deleteUser")
+@WebServlet("/admin/deleteUser")
 public class DeleteUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -23,13 +23,13 @@ public class DeleteUserServlet extends HttpServlet {
 
             try{
                 UserServiceImpl.getInstance().deleteUserById(UserId);
-                resp.sendRedirect("/users?deleteOk=1");
+                resp.sendRedirect("/admin?deleteOk=1");
             }catch(LogicException e){
-                resp.sendRedirect("/users?deleteNotOk=1");
+                resp.sendRedirect("/admin?deleteNotOk=1");
             }
             return;
         }
-        resp.sendRedirect("/users?deleteNotOk=1");
+        resp.sendRedirect("/admin?deleteNotOk=1");
 
     }
 }

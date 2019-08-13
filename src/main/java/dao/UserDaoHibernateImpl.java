@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 import org.hibernate.service.ServiceRegistry;
 import util.DbHelper;
 
@@ -21,6 +22,29 @@ public class UserDaoHibernateImpl implements UserDao {
     private SessionFactory sessionFactory;
 
     public UserDaoHibernateImpl(){ this.sessionFactory = getSessionFactory();
+    }
+
+    @Override
+    public User getUserByLoginAndPassword(String login, String password) {
+        User user = null;
+        Session session = null;
+        try{
+            session = this.sessionFactory.openSession();
+            Transaction transaction = session.beginTransaction();
+            Query query = session.createQuery("FROM User WHERE login=:login AND password=:password");
+            query.setParameter("login", login);
+            query.setParameter("password", password);
+            List<User> res = query.list();
+            transaction.commit();
+            user = res.size() == 1 ? res.get(0):null;
+        }catch (HibernateException e){
+            e.printStackTrace();
+        }finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return user;
     }
 
     @Override

@@ -49,6 +49,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public User getUserByLoginAndPassword(String login, String password) {
+        return dao.getUserByLoginAndPassword(login, password);
+    }
+
+    @Override
     public boolean isCorrectedId(String strId) {
         try {
             Integer.parseInt(strId);
