@@ -12,7 +12,7 @@
 <c:if test="${!empty param.needAuth}"><center><font color="red">Необходима авторизация!</font></center></c:if>
 <c:if test="${!empty requestScope.message}"><center><font color="red">${requestScope.message}</font></center></c:if>
 <h2 align="center">Авторизация</h2>
-<form action="/" method="POST" align="center" >
+<form method="POST" align="center" >
     Логин: <input type="text" name="login" /> <br /><br />
     Пароль: <input type="password" name="password" /> <br /><br />
     <input type="submit" value="Войти" />

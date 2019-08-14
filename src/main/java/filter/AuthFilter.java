@@ -23,11 +23,11 @@ public class AuthFilter implements Filter {
         HttpSession session = req.getSession(false);
 
         if((session == null || session.getAttribute("loggedUser") == null)){
-            if(!req.getRequestURI().equals("/")) {
-                resp.sendRedirect("/?needAuth=1");
+            if(!req.getRequestURI().equals("/login")) {
+                resp.sendRedirect("/login?needAuth=1");
                 return;
             }
-        }else if(req.getRequestURI().equals("/") && req.getParameter("logout") == null){
+        }else if(req.getRequestURI().equals("/login")){
             if(((User)session.getAttribute("loggedUser")).getRole().equals("admin")){
                 resp.sendRedirect("/admin");
             }else{

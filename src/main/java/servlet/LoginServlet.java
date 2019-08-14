@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet("")
-public class IndexServlet extends HttpServlet {
+@WebServlet("/login")
+public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if(req.getParameter("logout") != null){
@@ -45,7 +45,7 @@ public class IndexServlet extends HttpServlet {
         HttpSession session = req.getSession(true);
         session.setAttribute("loggedUser", user);
 
-        resp.sendRedirect("/");
+        resp.sendRedirect("/login");
 
     }
 }

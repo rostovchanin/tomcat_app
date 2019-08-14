@@ -22,7 +22,7 @@ public class AdminFilter implements Filter {
 
         User user = (User)session.getAttribute("loggedUser");
         if(!user.getRole().equals("admin")){
-            ((HttpServletResponse)response).sendRedirect("/?accessDeny=1");
+            ((HttpServletResponse)response).sendRedirect("/login?accessDeny=1");
             return;
         }
         chain.doFilter(request, response);
