@@ -19,7 +19,6 @@ public class IndexServlet extends HttpServlet {
         if(req.getParameter("logout") != null){
             HttpSession session = req.getSession(false);
             if(session != null){
-                session.setAttribute("loggedUserId", null);
                 session.setAttribute("loggedUser", null);
             }
         }
@@ -44,7 +43,7 @@ public class IndexServlet extends HttpServlet {
         }
 
         HttpSession session = req.getSession(true);
-        session.setAttribute("loggedUserId", user.getId());
+        session.setAttribute("loggedUser", user);
 
         if(user.getRole().equals("admin")){
             resp.sendRedirect("/admin");
