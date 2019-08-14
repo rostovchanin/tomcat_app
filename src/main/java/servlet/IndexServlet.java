@@ -45,10 +45,7 @@ public class IndexServlet extends HttpServlet {
         HttpSession session = req.getSession(true);
         session.setAttribute("loggedUser", user);
 
-        if(user.getRole().equals("admin")){
-            resp.sendRedirect("/admin");
-        }else{
-            resp.sendRedirect("/user");
-        }
+        resp.sendRedirect("/");
+
     }
 }
